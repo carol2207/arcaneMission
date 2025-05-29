@@ -8,7 +8,7 @@ class Nivel1 extends Phaser.Scene {
         this.landscapeWidth = 0;
         this.miniboxW = 0;
         this.chimpSpeed = -150; // Velocidad hacia arriba
-        this.respawnY = this.scale?.height - 10 || 800; // Posición de reaparecer
+        this.respawnY = this.scale?.height - 10 || 900; // Posición de reaparecer
          this.bomberSpeed = 300; // Velocidad de movimiento horizontal
     this.minX = 0; // Mismo límite izquierdo que aim0
     this.maxX = 0; // Mismo límite derecho que aim0
@@ -20,8 +20,8 @@ class Nivel1 extends Phaser.Scene {
     preload() {
         console.log("soy preload");
         this.load.image("jinx", "./assets/jinxx.png");
-        this.load.image("land", "./assets/landscape.png");
-        this.load.image("box", "./assets/metalbox.png"); 
+        this.load.image("land", "./assets/bg.png");
+        this.load.image("box", "./assets/box.jpg"); 
         this.load.image("bullet","./assets/orbe.png");
         this.load.image("cupcake","./assets/cupake.png");
         this.load.image("aim0","./assets/aim2.png");
@@ -54,13 +54,13 @@ class Nivel1 extends Phaser.Scene {
 
         this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         
-        this.land = this.add.image(this.sys.game.config.width/2, this.sys.game.config.height/2,"land");
-        this.box12 = this.physics.add.image(0, 0, "box").setScale(2.187);
+        this.land = this.add.image(this.sys.game.config.width/2, this.sys.game.config.height/2,"land").setScale(1.4);
+        this.box12 = this.physics.add.image(0, 0, "box").setScale(2.74);
 
         this.jinx = this.add.image(this.scale.width / 2 - 23, this.scale.height - 200, "jinx").setScale(0.5).setOrigin(.33,.5);
 
-        this.chimp1 = this.physics.add.image(102, this.respawnY, "cohete").setScale(0.9);
-        this.chimp2 = this.physics.add.image(this.scale.width - 102, this.respawnY, "cohete").setScale(0.9);
+        this.chimp1 = this.physics.add.image(102, this.respawnY, "cohete").setScale(0.8).setAngle(270);
+        this.chimp2 = this.physics.add.image(this.scale.width - 102, this.respawnY, "cohete").setScale(0.8).setAngle(90);
         this.chimp2.flipX = true;
         this.chimp1.setImmovable()
         this.chimp2.setImmovable()
@@ -83,6 +83,9 @@ class Nivel1 extends Phaser.Scene {
         this.box9 = this.add.image(0, 0, "box").setScale(0.243);
         this.box10 = this.add.image(0, 0, "box").setScale(0.243);
         this.box11 = this.add.image(0, 0, "box").setScale(0.243);
+        this.box13 = this.add.image(0, 0, "box").setScale(0.243);
+        this.box14 = this.add.image(0, 0, "box").setScale(0.243);
+        
 
         this.cupcake1 = this.physics.add.image(0, 0, "cupcake").setScale(.3);
         this.cupcake2 = this.physics.add.image(0, 0, "cupcake").setScale(.3);
@@ -122,7 +125,7 @@ class Nivel1 extends Phaser.Scene {
         console.log(this.boxWidth);
         this.landscapeWidth = this.land.displayWidth - this.boxWidth;
         console.log(this.landscapeWidth);
-        this.miniboxW = this.box3.displayWidth;
+        this.miniboxW = this.box3.displayWidth + 1;
         console.log(this.miniboxW);
 
         // collidersss
@@ -145,7 +148,7 @@ class Nivel1 extends Phaser.Scene {
         null,
         this);
 
-        this.physics.add.collider(this.bombs,this.box12,this.bomb,null,this)
+        this.physics.add.collider(this.bombs,this.box12,this.bombb,null,this)
         
         // Configuración de controles
         this.cursor = this.input.keyboard.createCursorKeys();
@@ -165,11 +168,11 @@ class Nivel1 extends Phaser.Scene {
 
     }
 
-    bomb(bomb,box12){
+    bombb(bomb,box12){
 
         box12.destroy();
         bomb.body.setImmovable(true);
-    bomb.body.moves = false; 
+        bomb.body.moves = false; 
     }
 
 
@@ -220,8 +223,6 @@ destroyy(bullet, target) {
 
 
 rebote(bullet, chimp) {
-    console.log("¡Bala impactó en el chimpancé!");
-    this.ChimpS.play();
     this.activeBullet.setVelocityY(0);
     this.activeBullet.setBounce(3)
     this.activeBullet.setVelocityX(this.activeBullet.body.velocity.x > 0 ? 800 : -800);
@@ -251,7 +252,7 @@ bomb(bomber) {
         bomber.x,
         bomber.y + 30, // 30 píxeles debajo del bomber
         "bomb"
-    ).setScale(0.125);
+    ).setScale(0.06);
 
     // Configura la física del bomb
     bomb.body.setVelocityY(200); // Caída hacia abajo
@@ -384,13 +385,13 @@ this.bombers.getChildren().forEach(bomber => {
     }
 
     updateBoxPositions() {
-        const padding = 102;
+        const padding = 100;
         const boxY = this.scale.height - 100;
         const boxYmini = (boxY + this.boxWidth * 0.10) - 3;
         const boxXmini = (this.boxWidth + padding) / 2 + 11;
         const tralaH = this.scale.height - 168;
 
-        this.box12.setPosition(padding * 2 + boxXmini * 2 + 27, boxY * 1.8);
+        this.box12.setPosition(padding*3 + boxXmini*2 + 30 ,boxY*1.8 + 70)
         this.box1.setPosition(padding, boxY);
         this.box2.setPosition(this.scale.width - padding, boxY);
         this.box3.setPosition(boxXmini, boxYmini);
@@ -402,15 +403,17 @@ this.bombers.getChildren().forEach(bomber => {
         this.box9.setPosition(boxXmini + this.miniboxW * 6, boxYmini);
         this.box10.setPosition(boxXmini + this.miniboxW * 7, boxYmini);
         this.box11.setPosition(boxXmini + this.miniboxW * 8, boxYmini);
+        this.box13.setPosition(boxXmini + this.miniboxW*9, boxYmini)
+        this.box14.setPosition(boxXmini + this.miniboxW*10, boxYmini)
 
-        this.cupcake1.setPosition(boxXmini, tralaH);
-        this.cupcake2.setPosition(boxXmini + this.miniboxW, tralaH);
-        this.cupcake3.setPosition(boxXmini + this.miniboxW * 2, tralaH);
-        this.cupcake4.setPosition(boxXmini + this.miniboxW * 3, tralaH);
-        this.cupcake5.setPosition(boxXmini + this.miniboxW * 5, tralaH);
-        this.cupcake6.setPosition(boxXmini + this.miniboxW * 6, tralaH);
-        this.cupcake7.setPosition(boxXmini + this.miniboxW * 7, tralaH);
-        this.cupcake8.setPosition(boxXmini + this.miniboxW * 8, tralaH);
+        this.cupcake1.setPosition(boxXmini + this.miniboxW/2, tralaH);
+        this.cupcake2.setPosition(boxXmini + this.miniboxW + this.miniboxW/2, tralaH);
+        this.cupcake3.setPosition(boxXmini + this.miniboxW * 2 + this.miniboxW/2, tralaH);
+        this.cupcake4.setPosition(boxXmini + this.miniboxW * 3 + this.miniboxW/2, tralaH);
+        this.cupcake5.setPosition(boxXmini + this.miniboxW * 7 - this.miniboxW/2, tralaH);
+        this.cupcake6.setPosition(boxXmini + this.miniboxW * 8 - this.miniboxW/2, tralaH);
+        this.cupcake7.setPosition(boxXmini + this.miniboxW * 9 - this.miniboxW/2, tralaH);
+        this.cupcake8.setPosition(boxXmini + this.miniboxW * 10 - this.miniboxW/2, tralaH);
 
         this.chimp2.flipX = true;
     }

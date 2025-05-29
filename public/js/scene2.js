@@ -8,7 +8,7 @@ class Nivel2 extends Phaser.Scene {
         this.landscapeWidth = 0;
         this.miniboxW = 0;
         this.chimpSpeed = -150; // Velocidad hacia arriba
-        this.respawnY = this.scale?.height - 10 || 800; // Posición de reaparecer
+        this.respawnY = this.scale?.height - 10 || 900; // Posición de reaparecer
          this.bombardiroSpeed = 500; // Velocidad de movimiento horizontal
     this.minX = 0; // Mismo límite izquierdo que aim0
     this.maxX = 0; // Mismo límite derecho que aim0
@@ -26,8 +26,8 @@ class Nivel2 extends Phaser.Scene {
     preload() {
         console.log("soy preload");
         this.load.image("jinxx", "./assets/jinxx.png");
-        this.load.image("land", "./assets/landscape.png");
-        this.load.image("box", "./assets/box.png"); 
+        this.load.image("land", "./assets/bg.png");
+        this.load.image("box", "./assets/box.jpg"); 
         this.load.image("bullet","./assets/bullet4.png");
         this.load.image("cupcake","./assets/cupake.png");
         this.load.image("aim0","./assets/aim2.png");
@@ -37,7 +37,6 @@ class Nivel2 extends Phaser.Scene {
         this.load.audio("bgFS","./assets/Start.mp3")
         this.load.audio("shot","./assets/shot.wav")
         this.load.audio("drop","./assets/drop.wav")
-        this.load.audio("Chimp","./assets/chimpS.mp3");
         this.load.audio("upgrade","./assets/uplong.wav")
         this.load.image("gussini","./assets/bomber.png")
     }
@@ -64,8 +63,8 @@ class Nivel2 extends Phaser.Scene {
 
         this.jinxx = this.add.image(this.scale.width / 2 - 23, this.scale.height - 200, "jinxx").setScale(0.5).setOrigin(.33,.5);
 
-        this.chimp1 = this.physics.add.image(102, this.respawnY, "chimpanzini").setScale(0.9);
-        this.chimp2 = this.physics.add.image(this.scale.width - 102, this.respawnY, "chimpanzini").setScale(0.9);
+        this.chimp1 = this.physics.add.image(102, this.respawnY, "chimpanzini").setScale(0.9).setAngle(270);
+        this.chimp2 = this.physics.add.image(this.scale.width - 102, this.respawnY, "chimpanzini").setScale(0.9).setAngle(90);
         this.chimp2.flipX = true;
         this.chimp1.setImmovable()
         this.chimp2.setImmovable()
@@ -88,8 +87,10 @@ class Nivel2 extends Phaser.Scene {
         this.box9 = this.add.image(0, 0, "box").setScale(0.243);
         this.box10 = this.add.image(0, 0, "box").setScale(0.243);
         this.box11 = this.add.image(0, 0, "box").setScale(0.243);
+        this.box30 = this.add.image(0, 0, "box").setScale(0.243);
+        this.box31 = this.add.image(0, 0, "box").setScale(0.243);
 
-        this.box13 = this.physics.add.image(470, 240 , "box").setScale(0.07);
+        this.box13 = this.physics.add.image(460, 240 , "box").setScale(0.07);
         const tinyBoxW = this.box13.displayWidth + 1
         this.box14 = this.physics.add.image(this.sys.game.config.width - 470, 240 , "box").setScale(0.07);
         this.box15 = this.physics.add.image(this.sys.game.config.width - 470 - tinyBoxW , 240 , "box").setScale(0.07);
@@ -107,6 +108,12 @@ class Nivel2 extends Phaser.Scene {
         this.box27 = this.physics.add.image(this.sys.game.config.width - 470 - tinyBoxW * 13, 240 , "box").setScale(0.07);
         this.box28 = this.physics.add.image(this.sys.game.config.width - 470 - tinyBoxW * 14, 240 , "box").setScale(0.07);
         this.box29 = this.physics.add.image(this.sys.game.config.width - 470 - tinyBoxW * 15, 240 , "box").setScale(0.07);
+        this.box32 = this.physics.add.image(this.sys.game.config.width - 470 - tinyBoxW * 16, 240 , "box").setScale(0.07);
+        this.box33 = this.physics.add.image(this.sys.game.config.width - 470 - tinyBoxW * 17, 240 , "box").setScale(0.07);
+        this.box34 = this.physics.add.image(this.sys.game.config.width - 470 - tinyBoxW * 18, 240 , "box").setScale(0.07);
+        this.box35 = this.physics.add.image(this.sys.game.config.width - 470 - tinyBoxW * 19, 240 , "box").setScale(0.07);
+        this.box36 = this.physics.add.image(this.sys.game.config.width - 470 - tinyBoxW * 20, 240 , "box").setScale(0.07);
+        this.box37 = this.physics.add.image(this.sys.game.config.width - 470 - tinyBoxW * 21, 240 , "box").setScale(0.07);
         
 
         this.cupcake1 = this.physics.add.image(0, 0, "cupcake").setScale(.3);
@@ -134,8 +141,8 @@ class Nivel2 extends Phaser.Scene {
         
         // Asigna velocidad inicial aleatoria para variedad
         const speed = this.bombardiroSpeed
-        bombardiro.body.setVelocityX(-speed);
-        bombardiro.flipX= true 
+        bombardiro.body.setVelocityX(speed);
+        bombardiro.flipX = true
     });
         this.aim = this.add.image(this.sys.game.config.width/2, this.sys.game.config.height/2, "aim0").setScale(.03);
 
@@ -148,7 +155,7 @@ class Nivel2 extends Phaser.Scene {
         console.log(this.boxWidth);
         this.landscapeWidth = this.land.displayWidth - this.boxWidth;
         console.log(this.landscapeWidth);
-        this.miniboxW = this.box3.displayWidth;
+        this.miniboxW = this.box3.displayWidth + 1;
         console.log(this.miniboxW);
 
         // collidersss
@@ -173,11 +180,12 @@ class Nivel2 extends Phaser.Scene {
 
         this.physics.add.collider(this.bullets,[this.box13,this.box14,this.box15,this.box16,
             this.box17,this.box18,this.box19,this.box20,this.box21,this.box22,this.box23,
-            this.box24,this.box25,this.box26,this.box27,this.box28,this.box29
+            this.box24,this.box25,this.box26,this.box27,this.box28,this.box29,this.box32,
+            this.box33,this.box34,this.box35,this.box36,this.box37
         ],
     this.destroyyy,null,this)
 
-        this.physics.add.collider(this.bombs,this.box12,this.bomb,null,this)
+        this.physics.add.collider(this.bombs,this.box12,this.bombb,null,this)
         
         // Configuración de controles
         this.cursor = this.input.keyboard.createCursorKeys();
@@ -197,7 +205,7 @@ class Nivel2 extends Phaser.Scene {
 
     }
 
-    bomb(bomb,box12){
+    bombb(bomb,box12){
 
         box12.destroy();
         bomb.body.setImmovable(true);
@@ -210,12 +218,7 @@ class Nivel2 extends Phaser.Scene {
     
     if (cupcake) {
         this.cupcakesKilled += 1
-        this.tweens.add({
-            targets: cupcake,
-            alpha: 0,
-            duration: 300,
-            onComplete: () => cupcake.destroy()
-        });
+        cupcake.destroy();
     }
     
 }
@@ -244,8 +247,7 @@ destroy(bullet, target) {
     if (target) {
         target.destroy(); // Destruye el objeto si es necesario
     }
-    this.Points += 100
-    console.log("has sumado 100 puntos")
+    this.Points += 60
 }
 
 destroyy(bullet, target) {
@@ -260,14 +262,11 @@ destroyy(bullet, target) {
     if (target) {
         target.destroy(); // Destruye el objeto si es necesario
     }
-    this.Points += 500;
-    console.log("has sumado 500 puntos")
+    this.Points += 180;
 }
 
 
 rebote(bullet, chimp) {
-    console.log("¡Bala impactó en el chimpancé!");
-    this.ChimpS.play();
     this.activeBullet.setVelocityY(0);
     this.activeBullet.setBounce(3)
     this.activeBullet.setVelocityX(this.activeBullet.body.velocity.x > 0 ? 800 : -800);
@@ -279,11 +278,11 @@ moveBombardiro(bombardiro) {
 
     if (bombardiro.x <= this.minX) {
         bombardiro.body.setVelocityX(this.bombardiroSpeed);
-        bombardiro.flipX = false 
+        bombardiro.flipX = true 
     } 
     else if (bombardiro.x >= this.maxX) {
         bombardiro.body.setVelocityX(-this.bombardiroSpeed);
-        bombardiro.flipX= true 
+        bombardiro.flipX= false 
     }
     if (Phaser.Math.Between(1, 240) <= 1) {
         this.bomb(bombardiro);
@@ -297,7 +296,7 @@ bomb(bombardiro) {
         bombardiro.x,
         bombardiro.y + 30, // 30 píxeles debajo del bombardiro
         "bomb"
-    ).setScale(0.125);
+    ).setScale(0.06);
 
     // Configura la física del bomb
     bomb.body.setVelocityY(200); // Caída hacia abajo
@@ -435,7 +434,7 @@ this.bombardiros.getChildren().forEach(bombardiro => {
         const boxXmini = (this.boxWidth + padding) / 2 + 11;
         const tralaH = this.scale.height - 168;
 
-        this.box12.setPosition(padding * 2 + boxXmini * 2 + 27, boxY * 1.8);
+        this.box12.setPosition(padding*3 + boxXmini*2 + 30 ,boxY*1.8 + 70)
         this.box1.setPosition(padding, boxY);
         this.box2.setPosition(this.scale.width - padding, boxY);
         this.box3.setPosition(boxXmini, boxYmini);
@@ -447,15 +446,18 @@ this.bombardiros.getChildren().forEach(bombardiro => {
         this.box9.setPosition(boxXmini + this.miniboxW * 6, boxYmini);
         this.box10.setPosition(boxXmini + this.miniboxW * 7, boxYmini);
         this.box11.setPosition(boxXmini + this.miniboxW * 8, boxYmini);
+        this.box30.setPosition(boxXmini + this.miniboxW * 9, boxYmini);
+        this.box31.setPosition(boxXmini + this.miniboxW * 10, boxYmini);
 
-        this.cupcake1.setPosition(boxXmini, tralaH);
-        this.cupcake2.setPosition(boxXmini + this.miniboxW, tralaH);
-        this.cupcake3.setPosition(boxXmini + this.miniboxW * 2, tralaH);
-        this.cupcake4.setPosition(boxXmini + this.miniboxW * 3, tralaH);
-        this.cupcake5.setPosition(boxXmini + this.miniboxW * 5, tralaH);
-        this.cupcake6.setPosition(boxXmini + this.miniboxW * 6, tralaH);
-        this.cupcake7.setPosition(boxXmini + this.miniboxW * 7, tralaH);
-        this.cupcake8.setPosition(boxXmini + this.miniboxW * 8, tralaH);
+        this.cupcake1.setPosition(boxXmini + this.miniboxW/2, tralaH);
+        this.cupcake2.setPosition(boxXmini + this.miniboxW + this.miniboxW/2, tralaH);
+        this.cupcake3.setPosition(boxXmini + this.miniboxW * 2 + this.miniboxW/2, tralaH);
+        this.cupcake4.setPosition(boxXmini + this.miniboxW * 3 + this.miniboxW/2, tralaH);
+        this.cupcake5.setPosition(boxXmini + this.miniboxW * 7 - this.miniboxW/2, tralaH);
+        this.cupcake6.setPosition(boxXmini + this.miniboxW * 8 - this.miniboxW/2, tralaH);
+        this.cupcake7.setPosition(boxXmini + this.miniboxW * 9 - this.miniboxW/2, tralaH);
+        this.cupcake8.setPosition(boxXmini + this.miniboxW * 10 - this.miniboxW/2, tralaH);
+
 
         this.chimp2.flipX = true;
     }

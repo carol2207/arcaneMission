@@ -7,7 +7,7 @@ class GameOver extends Phaser.Scene{
 
     preload(){
         
-        this.load.font('titulo', './assets/Radiantantique.ttf');
+        this.load.font('titulo', './assets/Steamwreck-07pd.ttf');
         this.load.image("bg","./assets/gameOver.jpg")
         this.load.audio("bgS","./assets/GameOver.mp3")
     }
@@ -19,7 +19,7 @@ class GameOver extends Phaser.Scene{
         this.bgS = this.sound.add("bgS",{loop:true});
         this.bgS.play();
         
-    const press = this.add.text(this.sys.game.config.width/2, this.sys.game.config.height - 75, 'PRESS SPACE', {
+    const press = this.add.text(this.sys.game.config.width/2, this.sys.game.config.height - 75, 'Presiona espacio', {
         fontSize: 45,
         fontFamily: 'titulo',
         color: '#f0f0f0',
