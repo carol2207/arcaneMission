@@ -43,7 +43,7 @@ function preload() {
     this.load.image("bomber","./assets/bomber.png");
     this.load.image("bombardini","./assets/bomber.png");
     this.load.image("bomb","./assets/jinx bomb.png")
-    this.load.audio("start","./assets/Intro.mp3")
+    this.load.audio("start","./assets/main.ogg")
 
 }
 
@@ -51,7 +51,7 @@ function create() {
     
     this.bgSound = this.sound.add("start",{loop:true});
     this.bgSound.play();
-    this.land = this.add.image(this.sys.game.config.width/2, this.sys.game.config.height/2, "land").setScale(1.3);;
+    this.land = this.add.image(this.sys.game.config.width/2, this.sys.game.config.height/2, "land").setScale(1.1);;
     this.box12 = this.add.image(0, 0, "box").setScale(2.74);
     
     // Personaje centrado en la parte inferior
@@ -135,8 +135,8 @@ function update(time, delta) {
 
     if(this.cursor.shift.isDown){
         console.log("yendo a pantalla final");
-        this.scene.add("WinScene", new Win)
-        this.scene.start("WinScene");
+        this.scene.add("GameOver", new GameOver)
+        this.scene.start("GameOver");
         this.bgSound.stop();
     }
 

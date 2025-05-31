@@ -8,32 +8,16 @@ class GameOver extends Phaser.Scene{
     preload(){
         
         this.load.font('titulo', './assets/Steamwreck-07pd.ttf');
-        this.load.image("bg","./assets/gameOver.jpg")
-        this.load.audio("bgS","./assets/GameOver.mp3")
+        this.load.image("bg","./assets/losebg.png")
+        this.load.audio("bgS","./assets/loseaudio.mp3")
     }
 
     create(){
         
     this.cursor = this.input.keyboard.createCursorKeys();
-        this.bg = this.add.image(this.sys.game.config.width/2, this.sys.game.config.height/2,"bg")
+        this.bg = this.add.image(this.sys.game.config.width/2, this.sys.game.config.height/2,"bg").setScale(.6);
         this.bgS = this.sound.add("bgS",{loop:true});
         this.bgS.play();
-        
-    const press = this.add.text(this.sys.game.config.width/2, this.sys.game.config.height - 75, 'Presiona espacio', {
-        fontSize: 45,
-        fontFamily: 'titulo',
-        color: '#f0f0f0',
-        align: 'center'
-    }).setOrigin(0.5);
-
-        this.tweens.add({
-        targets: press ,
-        duration:1000,
-        y:this.sys.game.config.height - 85,
-        repeat: -1,
-        yoyo: true,
-        ease:'Power1'
-    })
 
     }
 

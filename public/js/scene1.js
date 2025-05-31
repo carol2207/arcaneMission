@@ -24,15 +24,15 @@ class Nivel1 extends Phaser.Scene {
         this.load.image("box", "./assets/box.jpg"); 
         this.load.image("bullet","./assets/orbe.png");
         this.load.image("cupcake","./assets/cupake.png");
-        this.load.image("aim0","./assets/aim2.png");
+        this.load.image("aim0","./assets/crosshair.png");
         this.load.image("cohete","./assets/cohete.png");
         this.load.image("bomber","./assets/bomber.png");
         this.load.image("bomb","./assets/jinx bomb.png")
         this.load.image("Nikess","./assets/cupcakedead.png")
-        this.load.audio("explodes","./assets/Impact15.wav")
-        this.load.audio("bgFS","./assets/Start.mp3")
-        this.load.audio("shot","./assets/shot.wav")
-        this.load.audio("drop","./assets/drop.wav")
+        this.load.audio("explodes","./assets/enemy_explotion.ogg")
+        this.load.audio("bgFS","./assets/Fight.mp3")
+        this.load.audio("shot","./assets/player_shoot.ogg")
+        this.load.audio("drop","./assets/enemy_shoot.ogg")
         this.load.audio("Chimp","./assets/chimpS.mp3");
         this.load.audio("upgrade","./assets/uplong.wav")
     }
@@ -54,7 +54,7 @@ class Nivel1 extends Phaser.Scene {
 
         this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         
-        this.land = this.add.image(this.sys.game.config.width/2, this.sys.game.config.height/2,"land").setScale(1.4);
+        this.land = this.add.image(this.sys.game.config.width/2, this.sys.game.config.height/2,"land").setScale(1.1);
         this.box12 = this.physics.add.image(0, 0, "box").setScale(2.74);
 
         this.jinx = this.add.image(this.scale.width / 2 - 23, this.scale.height - 200, "jinx").setScale(0.5).setOrigin(.33,.5);
@@ -114,7 +114,7 @@ class Nivel1 extends Phaser.Scene {
         const speed = this.bomberSpeed
         bomber.body.setVelocityX(-speed);
     });
-        this.aim = this.add.image(this.sys.game.config.width/2, this.sys.game.config.height/2, "aim0").setScale(.03);
+        this.aim = this.add.image(this.sys.game.config.width/2, this.sys.game.config.height/2, "aim0")
 
         this.cupcake1.flipX = true;
         this.cupcake2.flipX = true;
